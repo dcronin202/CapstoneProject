@@ -9,4 +9,7 @@
     <!-- TODO: Add/Remove API key -->
     <string name="api_key_giphy"></string>
 
+    <!-- Content Descriptions -->
+    <string name="contentDescription_selected_gif">The GIF image you selected.</string>
+
 </resources>

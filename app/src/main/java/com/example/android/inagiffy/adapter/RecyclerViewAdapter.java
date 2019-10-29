@@ -1,18 +1,22 @@
 package com.example.android.inagiffy.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.android.inagiffy.MainActivity;
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
+import com.example.android.inagiffy.fragment.GifDialogFragment;
 
 import java.util.List;
 
@@ -44,7 +48,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(gifImages.getGifUrl())
                 .into(viewHolder.gifUrlImage);
 
+        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(mContext, "onClick: open dialog fragment", Toast.LENGTH_SHORT).show();
+
+                GifDialogFragment dialogFragment = new GifDialogFragment();
+                dialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "tag");
+            }
+        });
+
     }
+
+    // TODO: Method to launch DialogFragment
 
     @Override
     public int getItemCount() {

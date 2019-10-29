@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
 
@@ -39,7 +40,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         final Gif gifImages = mGifImages.get(position);
 
-        viewHolder.gifUrl.setText(gifImages.getTrendingGifUrl());
+        Glide.with(mContext)
+                .load(gifImages.getGifUrl())
+                .into(viewHolder.gifUrlImage);
 
     }
 
@@ -59,13 +62,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView gifUrl;
-        LinearLayout parentLayout;
+        ImageView gifUrlImage;
+        FrameLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            gifUrl = itemView.findViewById(R.id.gif_url_textview);
+            gifUrlImage = itemView.findViewById(R.id.gif_image);
             parentLayout = itemView.findViewById(R.id.gif_list_layout);
         }
     }

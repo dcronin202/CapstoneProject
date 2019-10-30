@@ -27,7 +27,6 @@ public class MainActivityFragment extends Fragment {
 
     private GifViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
-
     private FragmentMainBinding binding;
 
 
@@ -57,7 +56,6 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        //errorMessage = view.findViewById(R.id.error_message);
         setupViewModel();
 
         return binding.getRoot();
@@ -72,6 +70,13 @@ public class MainActivityFragment extends Fragment {
                 if (gifs.size() > 0) {
                     recyclerViewAdapter.updateGifList(gifs);
                     binding.recyclerViewMain.setVisibility(View.VISIBLE);
+                    binding.searchViewMain.setVisibility(View.VISIBLE);
+                    binding.errorMessage.setVisibility(View.GONE);
+
+                } else {
+                    binding.errorMessage.setVisibility(View.VISIBLE);
+                    binding.recyclerViewMain.setVisibility(View.GONE);
+                    binding.searchViewMain.setVisibility(View.GONE);
                 }
             }
         });

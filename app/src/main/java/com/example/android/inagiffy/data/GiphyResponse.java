@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TrendingResponse {
+public class GiphyResponse {
 
     @SerializedName("data")
     public List<Gif> trendingResults;

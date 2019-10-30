@@ -51,16 +51,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(mContext, "onClick: open dialog fragment", Toast.LENGTH_SHORT).show();
 
-                GifDialogFragment dialogFragment = new GifDialogFragment();
-                dialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "tag");
+                launchDialogFragment();
+
+                Toast.makeText(mContext, gifImages.getGifId(), Toast.LENGTH_SHORT).show();
+                ImageView imageView = view.findViewById(R.id.dialog_image);
+                Glide.with(mContext).load(gifImages).into(imageView);
+
             }
         });
 
     }
 
-    // TODO: Method to launch DialogFragment
+    // Method to launch DialogFragment
+    private void launchDialogFragment() {
+        GifDialogFragment dialogFragment = new GifDialogFragment();
+        dialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "tag");
+    }
 
     @Override
     public int getItemCount() {

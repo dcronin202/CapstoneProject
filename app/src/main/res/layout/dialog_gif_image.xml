@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-    <TextView
-        android:id="@+id/dialog_title"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:padding="16dp"
-        android:gravity="center"
-        android:textStyle="bold" />
+    <data></data>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:padding="16dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+
+        <ImageView
+            android:id="@+id/dialog_image"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="#778899"
+/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

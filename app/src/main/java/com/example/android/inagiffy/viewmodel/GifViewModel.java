@@ -22,13 +22,18 @@ public class GifViewModel extends AndroidViewModel {
         Log.d(LOG, "Actively retrieving gifs from database");
     }
 
-    // Trending
-    public void getGifList() {
-        gifRepository.callGifImages();
-    }
-
     public LiveData<List<Gif>> getGifImages() {
         return gifRepository.getGifDetails();
+    }
+
+    // Trending
+    public void getTrendingGifList() {
+        gifRepository.callTrendingGifImages();
+    }
+
+    // Search
+    public void getSearchGifList(String query) {
+        gifRepository.callSearchGifImages(query);
     }
 
 }

@@ -7,6 +7,9 @@ import retrofit2.http.Query;
 public interface GiphyApi {
 
     @GET("trending")
-    Call<TrendingResponse> getTrendingGifImages(@Query("api_key") String apiKey);
+    Call<GiphyResponse> getTrendingGifImages(@Query("api_key") String apiKey);
+
+    @GET("search")
+    Call<GiphyResponse> getSearchGifImages(@Query("api_key") String apiKey, @Query("q") String searchText);
 
 }

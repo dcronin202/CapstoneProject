@@ -6,9 +6,10 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
 import com.example.android.inagiffy.data.GiphyApi;
-import com.example.android.inagiffy.data.TrendingResponse;
+import com.example.android.inagiffy.data.GiphyResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +24,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GifRepository {
 
     private static final String LOG = GifRepository.class.getSimpleName();
-    private static final String apiKey = "";
-    private static final String TRENDING_URL = "https://api.giphy.com/v1/gifs/";
+    private static final String baseGiphyUrl = "https://api.giphy.com/v1/gifs/";
+    private String apiKey = "";
     private GiphyApi giphyApi;
     private MutableLiveData<List<Gif>> gifImages;
 
 
     public GifRepository(Application application) {
+        apiKey = application.getString(R.string.api_key_giphy);
         gifImages = new MutableLiveData<>();
     }
 
@@ -41,7 +43,7 @@ public class GifRepository {
     // RETROFIT Methods
 
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(TRENDING_URL)
+            .baseUrl(baseGiphyUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
@@ -49,21 +51,22 @@ public class GifRepository {
         giphyApi = retrofit.create(GiphyApi.class);
     }
 
-    public void callGifImages() {
+    // Method for retrieving Trending gifs
+
+    public void callTrendingGifImages() {
         if (giphyApi == null) {
             getGifApi();
         }
 
-        Call<TrendingResponse> call = giphyApi.getTrendingGifImages(apiKey);
-        call.enqueue(new Callback<TrendingResponse>() {
-
+        Call<GiphyResponse> call = giphyApi.getTrendingGifImages(apiKey);
+        call.enqueue(new Callback<GiphyResponse>() {
             @Override
-            public void onResponse(Call<TrendingResponse> call, Response<TrendingResponse> response) {
+            public void onResponse(Call<GiphyResponse> call, Response<GiphyResponse> response) {
                 onGifImageResponseReceived(response);
             }
 
             @Override
-            public void onFailure(Call<TrendingResponse> call, Throwable t) {
+            public void onFailure(Call<GiphyResponse> call, Throwable t) {
                 gifImages.postValue(new ArrayList<Gif>());
                 Log.e(LOG, t.getMessage());
             }
@@ -72,19 +75,42 @@ public class GifRepository {
 
     }
 
-    private void onGifImageResponseReceived(Response<TrendingResponse> response) {
+    // Method for retrieving Search gifs
+
+    public void callSearchGifImages(String searchText) {
+        if (giphyApi == null) {
+            getGifApi();
+        }
+
+        Call<GiphyResponse> call = giphyApi.getSearchGifImages(apiKey, searchText);
+        call.enqueue(new Callback<GiphyResponse>() {
+            @Override
+            public void onResponse(Call<GiphyResponse> call, Response<GiphyResponse> response) {
+                onGifImageResponseReceived(response);
+            }
+
+            @Override
+            public void onFailure(Call<GiphyResponse> call, Throwable t) {
+                gifImages.postValue(new ArrayList<Gif>());
+                Log.e(LOG, t.getMessage());
+            }
+        });
+    }
+
+    // Method for receiving a gif response object and displaying its data
+
+    private void onGifImageResponseReceived(Response<GiphyResponse> response) {
 
         if (response.isSuccessful()) {
-            TrendingResponse trendingResponse = response.body();
-            final List<Gif> gifList = trendingResponse.getTrendingResults();
+            GiphyResponse giphyResponse = response.body();
+            // TODO: Possibly change the name of the getTrendingResults method
+            final List<Gif> gifList = giphyResponse.getTrendingResults();
             gifImages.postValue(gifList);
 
         } else {
             gifImages.postValue(new ArrayList<Gif>());
             Log.e(LOG, "Code: " + response.code());
-
         }
-
     }
 
 }

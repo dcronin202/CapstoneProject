@@ -1,17 +1,26 @@
 package com.example.android.inagiffy.data;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "favorites")
 public class Gif {
 
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     @Expose
     private String gifId;
 
+    @ColumnInfo(name = "is_favorite")
     @Expose
     private boolean isFavorite;
 
+    @Ignore
     public Gif() {
     }
 

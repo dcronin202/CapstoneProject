@@ -4,8 +4,13 @@
 
     <string name="error_message">No GIFs to display</string>
 
+    <!-- Menu Options -->
+    <string name="menu_trending">Trending</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_display_mode">Display Mode</string>
+
     <!-- GIPHY -->
-    <string name="url_giphy">http://api.giphy.com/v1/gifs/</string>
+    <string name="url_base_giphy">https://api.giphy.com/v1/gifs/</string>
     <!-- TODO: Add/Remove API key -->
     <string name="api_key_giphy"></string>
 

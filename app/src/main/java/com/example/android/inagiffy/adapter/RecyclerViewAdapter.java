@@ -1,13 +1,11 @@
 package com.example.android.inagiffy.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, final int position) {
 
         final Gif gifImages = mGifImages.get(position);
 
@@ -52,21 +50,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
 
-                launchDialogFragment();
-
-                Toast.makeText(mContext, gifImages.getGifId(), Toast.LENGTH_SHORT).show();
-                ImageView imageView = view.findViewById(R.id.dialog_image);
-                Glide.with(mContext).load(gifImages).into(imageView);
-
+                launchDialogFragment(position);
             }
         });
 
     }
 
     // Method to launch DialogFragment
-    private void launchDialogFragment() {
-        GifDialogFragment dialogFragment = new GifDialogFragment();
+    private void launchDialogFragment(int position) {
+        GifDialogFragment dialogFragment = new GifDialogFragment(position);
         dialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "tag");
+
     }
 
     @Override

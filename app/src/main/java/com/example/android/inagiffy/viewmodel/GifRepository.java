@@ -35,7 +35,7 @@ public class GifRepository {
         gifImages = new MutableLiveData<>();
     }
 
-    public LiveData<List<Gif>> getGifDetails() {
+    public LiveData<List<Gif>> getGifs() {
         return gifImages;
     }
 
@@ -103,8 +103,7 @@ public class GifRepository {
 
         if (response.isSuccessful()) {
             GiphyResponse giphyResponse = response.body();
-            // TODO: Possibly change the name of the getTrendingResults method
-            final List<Gif> gifList = giphyResponse.getTrendingResults();
+            final List<Gif> gifList = giphyResponse.getGifImageResults();
             gifImages.postValue(gifList);
 
         } else {

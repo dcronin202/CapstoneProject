@@ -7,14 +7,14 @@ import java.util.List;
 public class GiphyResponse {
 
     @SerializedName("data")
-    public List<Gif> trendingResults;
+    public List<Gif> gifImageResults;
 
-    public List<Gif> getTrendingResults() {
-        return trendingResults;
+    public List<Gif> getGifImageResults() {
+        return gifImageResults;
     }
 
-    public void setTrendingResults(List<Gif> trendingResults) {
-        this.trendingResults = trendingResults;
+    public void setGifImageResults(List<Gif> gifImageResults) {
+        this.gifImageResults = gifImageResults;
     }
 
 }

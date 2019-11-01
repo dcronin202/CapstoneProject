@@ -30,15 +30,25 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="16dp"/>
 
-            <ImageView
-                android:id="@+id/button_save"
+            <FrameLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="@drawable/button_rounded"
-                android:src="@drawable/ic_favorite_border_white_24dp"
-                android:padding="8dp"
+                android:layout_gravity="bottom|start"
                 android:layout_margin="16dp"
-                android:layout_gravity="bottom|start"/>
+                android:background="@drawable/button_rounded">
+
+                <ToggleButton
+                    android:id="@+id/button_save"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:background="@drawable/ic_toggle"
+                    android:layout_gravity="center"
+                    android:textOn=""
+                    android:textOff=""
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
+
+            </FrameLayout>
 
         </FrameLayout>
 

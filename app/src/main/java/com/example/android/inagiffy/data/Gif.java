@@ -1,5 +1,6 @@
 package com.example.android.inagiffy.data;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -11,7 +12,8 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "favorites")
 public class Gif {
 
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @PrimaryKey //(autoGenerate = true)
     @SerializedName("id")
     @Expose
     private String gifId;
@@ -41,7 +43,7 @@ public class Gif {
         return url1 + gifId + url2;
     }
 
-    public boolean isFavorite() {
+    public boolean getIsFavorite() {
         return isFavorite;
     }
 
@@ -50,7 +52,7 @@ public class Gif {
         this.gifId = gifId;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setIsFavorite(boolean favorite) {
         isFavorite = favorite;
     }
 

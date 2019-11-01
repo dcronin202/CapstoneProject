@@ -15,6 +15,8 @@ public class GifViewModel extends AndroidViewModel {
 
     private static final String LOG = GifViewModel.class.getSimpleName();
     private GifRepository gifRepository;
+    private Gif gifDetails;
+
 
     public GifViewModel(@NonNull Application application) {
         super(application);
@@ -23,7 +25,23 @@ public class GifViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Gif>> getGifImages() {
-        return gifRepository.getGifDetails();
+        return gifRepository.getGifs();
+    }
+
+    public Gif getGifDetails() {
+        return gifDetails;
+    }
+
+    public void setGifDetails(Gif gif) {
+        this.gifDetails = gif;
+    }
+
+    // Favorites
+    public void addFavorite(Gif gif) {
+        gif.setIsFavorite(true);
+    }
+
+    public void removeFavorite(Gif gif) {
     }
 
     // Trending

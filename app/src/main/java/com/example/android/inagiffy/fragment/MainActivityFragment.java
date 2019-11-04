@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
@@ -12,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.adapter.RecyclerViewAdapter;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private GifViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
@@ -39,7 +40,10 @@ public class MainActivityFragment extends Fragment {
         // Setup RecyclerView
         recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Gif>());
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        binding.recyclerViewMain.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //binding.recyclerViewMain.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // TODO: Fix shuffle glitch and set the horizontal span to 3
+        binding.recyclerViewMain.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+        binding.recyclerViewMain.setItemAnimator(null);
 
         // Setup SearchView
         binding.searchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -56,17 +60,26 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        setupViewModel();
+        // Swipe Refresh
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
+
+        setupDataObservers();
+        viewModel.getTrendingGifList(this);
 
         return binding.getRoot();
-
     }
 
-    private void setupViewModel() {
+    private void setupDataObservers() {
         viewModel = ViewModelProviders.of(getActivity()).get(GifViewModel.class);
+        //viewModel.setupSharedPref(getActivity().getSharedPreferences("gif_app", Context.MODE_PRIVATE));
         viewModel.getGifImages().observe(this, new Observer<List<Gif>>() {
             @Override
             public void onChanged(List<Gif> gifs) {
+                // Refresh spinner will remain visible while network call is being made
+                if(binding.swipeRefreshLayout.isRefreshing()) {
+                    binding.swipeRefreshLayout.setRefreshing(false);
+                }
+
                 if (gifs.size() > 0) {
                     recyclerViewAdapter.updateGifList(gifs);
                     binding.recyclerViewMain.setVisibility(View.VISIBLE);
@@ -80,11 +93,34 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
-
-        viewModel.getTrendingGifList();
     }
 
     public MainActivityFragment(){
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //viewModel.loadGifImages(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    // Sort Methods for Menu
+    public void sortByTrending() {
+        viewModel.getTrendingGifList(this);
+    }
+
+    public void sortByFavorites() {
+        viewModel.getFavorites(this);
+    }
+
+    // Swipe Refresh
+    @Override
+    public void onRefresh() {
+        viewModel.getTrendingGifList(this);
+    }
 }

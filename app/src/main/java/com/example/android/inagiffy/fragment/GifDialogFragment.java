@@ -73,8 +73,10 @@ public class GifDialogFragment extends DialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (favorites.isChecked()) {
+                    viewModel.addFavorite(gifIndex);
                     Toast.makeText(getActivity(), "Saved to Favorites", Toast.LENGTH_SHORT).show();
                 } else {
+                    viewModel.removeFavorite(gifIndex);
                     Toast.makeText(getActivity(), "Removed from Favorites", Toast.LENGTH_SHORT).show();
                 }
             }

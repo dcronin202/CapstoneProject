@@ -1,15 +1,20 @@
 package com.example.android.inagiffy.viewmodel;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
 import com.example.android.inagiffy.data.GiphyApi;
 import com.example.android.inagiffy.data.GiphyResponse;
+import com.example.android.inagiffy.database.GifDao;
+import com.example.android.inagiffy.database.GifFavoritesDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +32,14 @@ public class GifRepository {
     private static final String baseGiphyUrl = "https://api.giphy.com/v1/gifs/";
     private String apiKey = "";
     private GiphyApi giphyApi;
+    private GifDao gifDao;
     private MutableLiveData<List<Gif>> gifImages;
 
 
     public GifRepository(Application application) {
         apiKey = application.getString(R.string.api_key_giphy);
+        GifFavoritesDatabase database = GifFavoritesDatabase.getInstance(application);
+        gifDao = database.gifDao();
         gifImages = new MutableLiveData<>();
     }
 
@@ -39,6 +47,17 @@ public class GifRepository {
         return gifImages;
     }
 
+
+    public void getFavoritesList(LifecycleOwner owner) {
+        gifDao.loadAllGifImages().observe(owner, new Observer<List<Gif>>() {
+            @Override
+            public void onChanged(List<Gif> databaseGifs) {
+                if (databaseGifs != null) {
+                    gifImages.postValue(databaseGifs);
+                }
+            }
+        });
+    }
 
     // RETROFIT Methods
 
@@ -53,7 +72,7 @@ public class GifRepository {
 
     // Method for retrieving Trending gifs
 
-    public void callTrendingGifImages() {
+    public void callTrendingGifImages(final LifecycleOwner owner) {
         if (giphyApi == null) {
             getGifApi();
         }
@@ -62,7 +81,7 @@ public class GifRepository {
         call.enqueue(new Callback<GiphyResponse>() {
             @Override
             public void onResponse(Call<GiphyResponse> call, Response<GiphyResponse> response) {
-                onGifImageResponseReceived(response);
+                onGifImageResponseReceived(response, owner);
             }
 
             @Override
@@ -86,7 +105,7 @@ public class GifRepository {
         call.enqueue(new Callback<GiphyResponse>() {
             @Override
             public void onResponse(Call<GiphyResponse> call, Response<GiphyResponse> response) {
-                onGifImageResponseReceived(response);
+                onGifSearchResponseReceived(response);
             }
 
             @Override
@@ -99,7 +118,7 @@ public class GifRepository {
 
     // Method for receiving a gif response object and displaying its data
 
-    private void onGifImageResponseReceived(Response<GiphyResponse> response) {
+    private void onGifImageResponseReceived(Response<GiphyResponse> response, LifecycleOwner owner) {
 
         if (response.isSuccessful()) {
             GiphyResponse giphyResponse = response.body();
@@ -110,6 +129,47 @@ public class GifRepository {
             gifImages.postValue(new ArrayList<Gif>());
             Log.e(LOG, "Code: " + response.code());
         }
+    }
+
+    // Method for receiving a gif response for search items and displaying its data
+    private void onGifSearchResponseReceived(Response<GiphyResponse> response) {
+        if (response.isSuccessful()) {
+            GiphyResponse giphyResponse = response.body();
+            final List<Gif> gifList = giphyResponse.getGifImageResults();
+            gifImages.postValue(gifList);
+
+        } else {
+            gifImages.postValue(new ArrayList<Gif>());
+            Log.e(LOG, "Code: " + response.code());
+        }
+    }
+
+    // AsyncTasks to Insert and Remove favorite GIF images
+    private class InsertFavoritesAsyncTask extends AsyncTask<Gif, Void, List<Gif>> {
+
+        @Override
+        protected List<Gif> doInBackground(Gif... gifs) {
+            gifDao.insertGif(gifs[0]);
+            return null;
+        }
+    }
+
+    private class RemoveFavoritesAsyncTask extends AsyncTask<Gif, Void, List<Gif>> {
+
+        @Override
+        protected List<Gif> doInBackground(Gif... gifs) {
+            gifDao.removeGif(gifs[0]);
+            return null;
+        }
+    }
+
+    // Insert and Remove favorite GIF images
+    public void insertGif(Gif gif) {
+        new InsertFavoritesAsyncTask().execute(gif);
+    }
+
+    public void removeGif(Gif gif) {
+        new RemoveFavoritesAsyncTask().execute(gif);
     }
 
 }

@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -50,15 +50,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
 
-                launchDialogFragment(position);
+                launchDialogFragment(gifImages.getGifId());
             }
         });
 
     }
 
     // Method to launch DialogFragment
-    private void launchDialogFragment(int position) {
-        GifDialogFragment dialogFragment = new GifDialogFragment(position);
+    private void launchDialogFragment(String id) {
+        GifDialogFragment dialogFragment = new GifDialogFragment(id);
         dialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "tag");
 
     }
@@ -80,7 +80,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView gifUrlImage;
-        FrameLayout parentLayout;
+        CardView parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

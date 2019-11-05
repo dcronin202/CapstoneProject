@@ -2,7 +2,9 @@ package com.example.android.inagiffy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,17 +12,22 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.inagiffy.fragment.MainActivityFragment;
+import com.example.android.inagiffy.viewmodel.GifViewModel;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityFragment mainFragment;
+    GifViewModel viewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewModel = ViewModelProviders.of(this).get(GifViewModel.class);
+        viewModel.setupSharedPref(getSharedPreferences("gif-app", Context.MODE_PRIVATE));
 
         launchMainActivityFragment();
     }

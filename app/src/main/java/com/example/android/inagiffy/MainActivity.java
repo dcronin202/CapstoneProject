@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.example.android.inagiffy.fragment.MainActivityFragment;
 import com.example.android.inagiffy.viewmodel.GifViewModel;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Initialize Mobile Ads SDK
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
 
         viewModel = ViewModelProviders.of(this).get(GifViewModel.class);
         viewModel.setupSharedPref(getSharedPreferences("gif-app", Context.MODE_PRIVATE));

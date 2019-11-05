@@ -47,7 +47,7 @@ public class GifRepository {
         return gifImages;
     }
 
-
+    // TODO: Fix this from sending favorites to Favorite screen
     public void getFavoritesList(LifecycleOwner owner) {
         gifDao.loadAllGifImages().observe(owner, new Observer<List<Gif>>() {
             @Override
@@ -96,7 +96,7 @@ public class GifRepository {
 
     // Method for retrieving Search gifs
 
-    public void callSearchGifImages(String searchText) {
+    public void callSearchGifImages(String searchText, final LifecycleOwner owner) {
         if (giphyApi == null) {
             getGifApi();
         }
@@ -105,7 +105,7 @@ public class GifRepository {
         call.enqueue(new Callback<GiphyResponse>() {
             @Override
             public void onResponse(Call<GiphyResponse> call, Response<GiphyResponse> response) {
-                onGifSearchResponseReceived(response);
+                onGifImageResponseReceived(response, owner);
             }
 
             @Override
@@ -121,21 +121,27 @@ public class GifRepository {
     private void onGifImageResponseReceived(Response<GiphyResponse> response, LifecycleOwner owner) {
 
         if (response.isSuccessful()) {
-            GiphyResponse giphyResponse = response.body();
+            final GiphyResponse giphyResponse = response.body();
             final List<Gif> gifList = giphyResponse.getGifImageResults();
-            gifImages.postValue(gifList);
-
-        } else {
-            gifImages.postValue(new ArrayList<Gif>());
-            Log.e(LOG, "Code: " + response.code());
-        }
-    }
-
-    // Method for receiving a gif response for search items and displaying its data
-    private void onGifSearchResponseReceived(Response<GiphyResponse> response) {
-        if (response.isSuccessful()) {
-            GiphyResponse giphyResponse = response.body();
-            final List<Gif> gifList = giphyResponse.getGifImageResults();
+            // TODO: Not working
+            gifDao.loadAllGifImages().observe(owner, new Observer<List<Gif>>() {
+                @Override
+                public void onChanged(List<Gif> databaseGifs) {
+                    if (databaseGifs != null) {
+                        // Loop through the gif network to find the matching one in the DB
+                        for (int indexForNetworkResults = 0; indexForNetworkResults < gifList.size(); indexForNetworkResults++) {
+                            // Loop through the DB movies to see if its the same one
+                            Gif gifFromNetwork = gifList.get(indexForNetworkResults);
+                            for (int indexForDbResult = 0; indexForDbResult < databaseGifs.size(); indexForDbResult++) {
+                                Gif gifFromDb = databaseGifs.get(indexForDbResult);
+                                if (gifFromDb.getGifId().equals(gifFromNetwork.getGifId())) {
+                                    gifFromNetwork.setIsFavorite(true);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
             gifImages.postValue(gifList);
 
         } else {

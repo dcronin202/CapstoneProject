@@ -29,11 +29,11 @@ public class GifDialogFragment extends DialogFragment {
 
     private DialogGifImageBinding binding;
     private GifViewModel viewModel;
-    private int gifIndex = 0;
+    private String gifId;
 
     // Class Constructor
-    public GifDialogFragment (int position) {
-        gifIndex = position;
+    public GifDialogFragment (String gifId) {
+        this.gifId = gifId;
     }
 
     @Nullable
@@ -57,11 +57,16 @@ public class GifDialogFragment extends DialogFragment {
         viewModel = ViewModelProviders.of(getActivity()).get(GifViewModel.class);
         viewModel.getGifImages().observe(this, new Observer<List<Gif>>() {
             @Override
-            public void onChanged(List<Gif> gifs) {
-                String gifUrl = gifs.get(gifIndex).getGifUrl();
-                Glide.with(getActivity())
-                        .load(gifUrl)
-                        .into(binding.dialogImage);
+            public void onChanged(List<Gif> gifList) {
+                for (int indexForNetworkResults = 0; indexForNetworkResults < gifList.size(); indexForNetworkResults++) {
+                    Gif gifFromNetwork = gifList.get(indexForNetworkResults);
+                    if (gifFromNetwork.getGifId().equals(gifId)) {
+                        String gifUrl = gifFromNetwork.getGifUrl();
+                        Glide.with(getActivity())
+                                .load(gifUrl)
+                                .into(binding.dialogImage);
+                    }
+                }
             }
         });
     }
@@ -69,14 +74,15 @@ public class GifDialogFragment extends DialogFragment {
     // Save to Favorites
     private void saveGif() {
         final ToggleButton favorites = binding.buttonSave;
-        favorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        favorites.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (favorites.isChecked()) {
-                    viewModel.addFavorite(gifIndex);
+                    viewModel.addFavorite(gifId);
                     Toast.makeText(getActivity(), "Saved to Favorites", Toast.LENGTH_SHORT).show();
                 } else {
-                    viewModel.removeFavorite(gifIndex);
+                    viewModel.removeFavorite(gifId);
                     Toast.makeText(getActivity(), "Removed from Favorites", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -92,6 +98,7 @@ public class GifDialogFragment extends DialogFragment {
 
             }
         });
+
         /* Uri gifUri = Uri.parse("https://media.giphy.com/media/12NUbkX6p4xOO4/giphy.gif");
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/gif");

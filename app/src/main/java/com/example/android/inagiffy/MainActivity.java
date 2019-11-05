@@ -16,12 +16,14 @@ import com.example.android.inagiffy.viewmodel.GifViewModel;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityFragment mainFragment;
-    GifViewModel viewModel;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private GifViewModel viewModel;
 
 
     @Override
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+
+        // Obtain the FirebaseAnalytics instance
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         viewModel = ViewModelProviders.of(this).get(GifViewModel.class);
         viewModel.setupSharedPref(getSharedPreferences("gif-app", Context.MODE_PRIVATE));
@@ -57,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.trending) {
             mainFragment.sortByTrending();
             Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
+            // TODO: Add FirebaseAnalytics event for the Trending & Favorites menu items
             return true;
         }
 

@@ -19,6 +19,7 @@ import com.example.android.inagiffy.adapter.RecyclerViewAdapter;
 import com.example.android.inagiffy.data.Gif;
 import com.example.android.inagiffy.databinding.FragmentMainBinding;
 import com.example.android.inagiffy.viewmodel.GifViewModel;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,10 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
             }
         });
 
+        // Load a Mobile Ad
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adViewTest.loadAd(adRequest);
+
         // Swipe Refresh
         binding.swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -84,12 +89,14 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
                     recyclerViewAdapter.updateGifList(gifs);
                     binding.recyclerViewMain.setVisibility(View.VISIBLE);
                     binding.searchViewMain.setVisibility(View.VISIBLE);
+                    binding.adViewTest.setVisibility(View.VISIBLE);
                     binding.errorMessage.setVisibility(View.GONE);
 
                 } else {
                     binding.errorMessage.setVisibility(View.VISIBLE);
                     binding.recyclerViewMain.setVisibility(View.GONE);
                     binding.searchViewMain.setVisibility(View.GONE);
+                    binding.adViewTest.setVisibility(View.GONE);
                 }
             }
         });

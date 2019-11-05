@@ -1,5 +1,6 @@
 package com.example.android.inagiffy.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.android.inagiffy.R;
@@ -40,17 +40,17 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
         // Setup RecyclerView
         recyclerViewAdapter = new RecyclerViewAdapter(getActivity(), new ArrayList<Gif>());
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        //binding.recyclerViewMain.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // TODO: Fix shuffle glitch and set the horizontal span to 3
+        binding.recyclerViewMain.setLayoutManager(new LinearLayoutManager(getActivity()));
+        /* TODO: Decide on a way to display the images
         binding.recyclerViewMain.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        binding.recyclerViewMain.setItemAnimator(null);
+        binding.recyclerViewMain.setItemAnimator(null); */
 
         // Setup SearchView
         binding.searchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             // Insert search results as a String in the getSearchGifList method
             public boolean onQueryTextSubmit(String query) {
-                viewModel.getSearchGifList(binding.searchViewMain.getQuery().toString());
+                viewModel.getSearchGifList(binding.searchViewMain.getQuery().toString(), getActivity());
                 return false;
             }
 
@@ -71,7 +71,7 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
 
     private void setupDataObservers() {
         viewModel = ViewModelProviders.of(getActivity()).get(GifViewModel.class);
-        //viewModel.setupSharedPref(getActivity().getSharedPreferences("gif_app", Context.MODE_PRIVATE));
+        viewModel.setupSharedPref(getActivity().getSharedPreferences("gif-app", Context.MODE_PRIVATE));
         viewModel.getGifImages().observe(this, new Observer<List<Gif>>() {
             @Override
             public void onChanged(List<Gif> gifs) {
@@ -101,7 +101,7 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public void onResume() {
         super.onResume();
-        //viewModel.loadGifImages(this);
+        viewModel.loadGifImages(this);
     }
 
     @Override

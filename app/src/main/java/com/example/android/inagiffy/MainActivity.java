@@ -58,17 +58,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        String trending = String.valueOf(R.string.menu_trending);
+        String favorites = String.valueOf(R.string.menu_favorites);
 
         if (id == R.id.trending) {
             mainFragment.sortByTrending();
             Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
-            // TODO: Add FirebaseAnalytics event for the Trending & Favorites menu items
+            logSelectedEvent(trending);
             return true;
         }
 
         if (id == R.id.favorites) {
             mainFragment.sortByFavorites();
             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+            logSelectedEvent(favorites);
             return true;
         }
 
@@ -87,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.main_activity_content, mainFragment)
                 .commit();
+    }
+
+    // Log Event for Firebase Analytics
+    private void logSelectedEvent(String menuTitle) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, menuTitle);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
 }

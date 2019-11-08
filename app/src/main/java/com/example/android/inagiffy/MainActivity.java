@@ -21,6 +21,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String FAVORITES = "favorites";
     private MainActivityFragment mainFragment;
     private FirebaseAnalytics mFirebaseAnalytics;
     private GifViewModel viewModel;
@@ -45,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
         viewModel.setupSharedPref(getSharedPreferences("gif-app", Context.MODE_PRIVATE));
 
         launchMainActivityFragment();
+
+        /* For widget
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.get(FAVORITES) != null) {
+                if (extras.get(FAVORITES) instanceof Boolean) {
+                    Boolean isFavorites = (Boolean) extras.get(FAVORITES);
+                    if (isFavorites) {
+                        mainFragment.sortByFavorites();
+                    }
+                }
+            }
+        }*/
     }
 
     // Menu Setup

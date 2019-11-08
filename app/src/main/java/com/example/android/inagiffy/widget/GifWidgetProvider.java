@@ -1,24 +1,30 @@
 package com.example.android.inagiffy.widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
+import com.example.android.inagiffy.MainActivity;
 import com.example.android.inagiffy.R;
+import com.example.android.inagiffy.fragment.MainActivityFragment;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class GifWidgetProvider extends AppWidgetProvider {
 
+    private static final String INTENT_UPDATE_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
+
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_gif_favorites);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        RemoteViews views = getGifFavoritesView(context, appWidgetId);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -30,16 +36,23 @@ public class GifWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
 
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
+    // Method for sending user to their Favorites
+    private static RemoteViews getGifFavoritesView(Context context, int appWidgetId) {
+
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_gif_favorites);
+
+        // Create an Intent to launch MainActivity when clicked (TODO: change to favorites)
+        Intent appIntent = new Intent(context, MainActivity.class);
+        //appIntent.putExtra(MainActivity.FAVORITES, true);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.widget_heart_image, pendingIntent);
+
+        return remoteViews;
+
     }
 }
 

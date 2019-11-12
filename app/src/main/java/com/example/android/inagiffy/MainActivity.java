@@ -75,10 +75,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         // Swipe Refresh
         binding.swipeRefreshLayout.setOnRefreshListener(this);
-        binding.swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        binding.swipeRefreshLayout.setColorScheme(android.R.color.holo_purple);
 
         // Error Message
         Resources resources = getResources();

@@ -5,12 +5,10 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.example.android.inagiffy.MainActivity;
 import com.example.android.inagiffy.R;
-import com.example.android.inagiffy.fragment.MainActivityFragment;
 
 /**
  * Implementation of App Widget functionality.

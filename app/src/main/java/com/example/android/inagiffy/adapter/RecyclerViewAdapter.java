@@ -1,16 +1,23 @@
 package com.example.android.inagiffy.adapter;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.android.inagiffy.MainActivity;
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
@@ -23,6 +30,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<Gif> mGifImages;
     private Activity mContext;
+
 
     public RecyclerViewAdapter(Activity mContext, List<Gif> mGifDetails) {
         this.mGifImages = mGifDetails;
@@ -38,18 +46,31 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final RecyclerViewAdapter.ViewHolder viewHolder, final int position) {
 
         final Gif gifImages = mGifImages.get(position);
 
+        // Glide Setup
         Glide.with(mContext)
                 .load(gifImages.getGifUrl())
+                // Remove ProgressBar once gif has loaded (or if gif fails to load)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        viewHolder.progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
                 .into(viewHolder.gifUrlImage);
 
         viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 launchDialogFragment(gifImages.getGifId());
             }
         });
@@ -80,12 +101,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView gifUrlImage;
+        ProgressBar progressBar;
         CardView parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             gifUrlImage = itemView.findViewById(R.id.gif_image);
+            progressBar = itemView.findViewById(R.id.gif_progress_bar);
             parentLayout = itemView.findViewById(R.id.gif_list_layout);
         }
     }

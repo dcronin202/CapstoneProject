@@ -21,6 +21,15 @@
         android:id="@+id/display_mode"
         android:orderInCategory="3"
         android:title="@string/menu_display_mode"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="collapseActionView">
+
+        <menu>
+            <item
+                android:id="@+id/display_theme"
+                android:title="Dark Theme"
+                android:checkable="true"/>
+        </menu>
+
+    </item>
 
 </menu>

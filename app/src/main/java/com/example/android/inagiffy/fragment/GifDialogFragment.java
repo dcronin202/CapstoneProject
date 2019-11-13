@@ -2,12 +2,16 @@ package com.example.android.inagiffy.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -21,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.android.inagiffy.R;
 import com.example.android.inagiffy.data.Gif;
 import com.example.android.inagiffy.databinding.DialogGifImageBinding;
@@ -52,9 +57,6 @@ public class GifDialogFragment extends DialogFragment {
         // DataBinding
         binding = DataBindingUtil.inflate(inflater, R.layout.dialog_gif_image, container, false);
 
-        //progress = new ProgressDialog(getActivity());
-        //progress.setTitle("Loading...");
-
         setUpViewModel();
 
         setupShareButton();
@@ -77,6 +79,7 @@ public class GifDialogFragment extends DialogFragment {
                         Glide.with(getActivity())
                                 .load(gifUrl)
                                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .apply(RequestOptions.centerCropTransform())
                                 .into(binding.dialogImage);
                     }
                 }
@@ -84,7 +87,7 @@ public class GifDialogFragment extends DialogFragment {
         });
     }
 
-    // Save to Favorites
+    // Save to Favorites; TODO: move text to string xml
     private void setupSaveFavoriteButton() {
         final ToggleButton favorites = binding.buttonSave;
         favorites.setOnCheckedChangeListener(
@@ -107,13 +110,31 @@ public class GifDialogFragment extends DialogFragment {
         binding.buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(getActivity(), "Share Feature Coming Soon!", Toast.LENGTH_SHORT).show();
-                //progress.show();
+                Toast.makeText(getActivity(), "Upload Started", Toast.LENGTH_SHORT).show();
                 new GetGifFileOnDiskTask().execute(gifUrl);
             }
         });
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Set the size of the DialogFragment to be a square 90% of the width of the screen
+        Window window = getDialog().getWindow();
+        Point size = new Point();
+
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+
+        int width = size.x;
+        double adjustedWidth = width * 0.90;
+
+        window.setLayout((int)(adjustedWidth), (int)(adjustedWidth));
+        window.setGravity(Gravity.CENTER);
+    }
+
 
     private class GetGifFileOnDiskTask extends AsyncTask<String, Void, Void> {
 

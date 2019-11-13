@@ -157,33 +157,43 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         viewModel.getFavorites(this);
     }
 
+
     // Menu Items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         String trending = String.valueOf(R.string.menu_trending);
         String favorites = String.valueOf(R.string.menu_favorites);
 
-        if (id == R.id.trending) {
-            sortByTrending();
-            Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
-            logSelectedEvent(trending);
-            return true;
-        }
+        switch (item.getItemId()) {
+            case R.id.trending:
+                Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
+                sortByTrending();
+                logSelectedEvent(trending);
+                return true;
 
-        if (id == R.id.favorites) {
-            sortByFavorites();
-            Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
-            logSelectedEvent(favorites);
-            return true;
-        }
+            case R.id.favorites:
+                Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+                sortByFavorites();
+                logSelectedEvent(favorites);
+                return true;
 
-        if (id == R.id.display_mode) {
-            Toast.makeText(this, "Display Mode", Toast.LENGTH_SHORT).show();
-            return true;
-        }
+            case R.id.display_mode:
+                Toast.makeText(this, "Display Mode", Toast.LENGTH_SHORT).show();
+                return true;
 
-        return super.onOptionsItemSelected(item);
+            case R.id.display_theme:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setChecked(true);
+                    Toast.makeText(this, "Dark Theme", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

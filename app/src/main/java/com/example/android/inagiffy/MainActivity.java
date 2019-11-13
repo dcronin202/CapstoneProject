@@ -5,7 +5,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
@@ -53,7 +53,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // RecyclerView
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<Gif>());
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
-        binding.recyclerViewMain.setLayoutManager(new LinearLayoutManager(this));
+
+        // Set image cards to display in a staggered grid layout
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        binding.recyclerViewMain.setLayoutManager(layoutManager);
+        binding.recyclerViewMain.setItemAnimator(null);
 
         // Setup SearchView
         binding.searchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

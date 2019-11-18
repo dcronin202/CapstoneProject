@@ -162,20 +162,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // Menu Items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String logTrending = String.valueOf(R.string.menu_trending);
-        String logFavorites = String.valueOf(R.string.menu_favorites);
+        final Resources resources = getResources();
 
         switch (item.getItemId()) {
             case R.id.trending:
-                Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, resources.getString(R.string.menu_trending), Toast.LENGTH_SHORT).show();
                 sortByTrending();
-                logSelectedEvent(logTrending);
+                logSelectedEvent(resources.getString(R.string.menu_trending));
                 return true;
 
             case R.id.favorites:
-                Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, resources.getString(R.string.menu_favorites), Toast.LENGTH_SHORT).show();
                 sortByFavorites();
-                logSelectedEvent(logFavorites);
+                logSelectedEvent(resources.getString(R.string.menu_favorites));
                 return true;
 
             case R.id.display_mode:
@@ -185,11 +184,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 if (item.isChecked()) {
                     item.setChecked(false);
                     setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, resources.getString(R.string.menu_light_theme), Toast.LENGTH_SHORT).show();
                 } else {
                     item.setChecked(true);
                     setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    Toast.makeText(this, "Dark Theme", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, resources.getString(R.string.menu_dark_theme), Toast.LENGTH_SHORT).show();
                 }
                 return true;
 

@@ -162,20 +162,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // Menu Items
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String trending = String.valueOf(R.string.menu_trending);
-        String favorites = String.valueOf(R.string.menu_favorites);
+        String logTrending = String.valueOf(R.string.menu_trending);
+        String logFavorites = String.valueOf(R.string.menu_favorites);
 
         switch (item.getItemId()) {
             case R.id.trending:
                 Toast.makeText(this, "Trending", Toast.LENGTH_SHORT).show();
                 sortByTrending();
-                logSelectedEvent(trending);
+                logSelectedEvent(logTrending);
                 return true;
 
             case R.id.favorites:
                 Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
                 sortByFavorites();
-                logSelectedEvent(favorites);
+                logSelectedEvent(logFavorites);
                 return true;
 
             case R.id.display_mode:

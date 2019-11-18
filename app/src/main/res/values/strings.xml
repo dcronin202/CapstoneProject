@@ -4,6 +4,8 @@
 
     <string name="error_message">No GIFs to display</string>
 
+    <string name="search_hint">Search</string>
+
     <!-- Menu Options -->
     <string name="menu_trending">Trending</string>
     <string name="menu_favorites">Favorites</string>

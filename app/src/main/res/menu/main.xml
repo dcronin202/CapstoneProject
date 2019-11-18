@@ -26,7 +26,7 @@
         <menu>
             <item
                 android:id="@+id/display_theme"
-                android:title="Dark Theme"
+                android:title="@string/menu_dark_theme"
                 android:checkable="true"/>
         </menu>
 

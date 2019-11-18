@@ -8,6 +8,7 @@
     <string name="menu_trending">Trending</string>
     <string name="menu_favorites">Favorites</string>
     <string name="menu_display_mode">Display Mode</string>
+    <string name="menu_dark_theme">Dark Theme</string>
 
     <!-- GIPHY -->
     <string name="url_base_giphy">https://api.giphy.com/v1/gifs/</string>

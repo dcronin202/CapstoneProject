@@ -1,7 +1,7 @@
 package com.example.android.inagiffy.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,8 +41,10 @@ public class GifDialogFragment extends DialogFragment {
     private DialogGifImageBinding binding;
     private GifViewModel viewModel;
     private String gifId;
-    private File gifFile;
     private String gifUrl;
+    private Boolean gifIsFavorite;
+    private File gifFile;
+
 
     // Class Constructor
     public GifDialogFragment (String gifId) {
@@ -60,13 +62,13 @@ public class GifDialogFragment extends DialogFragment {
 
         setupShareButton();
 
-        setupSaveFavoriteButton();
-
         return binding.getRoot();
     }
 
     // ViewModel
     private void setUpViewModel() {
+        final ToggleButton favorites = binding.buttonSave;
+        final Resources resources = getResources();
         viewModel = ViewModelProviders.of(getActivity()).get(GifViewModel.class);
         viewModel.getGifImages().observe(this, new Observer<List<Gif>>() {
             @Override
@@ -74,42 +76,44 @@ public class GifDialogFragment extends DialogFragment {
                 for (int indexForNetworkResults = 0; indexForNetworkResults < gifList.size(); indexForNetworkResults++) {
                     Gif gifFromNetwork = gifList.get(indexForNetworkResults);
                     if (gifFromNetwork.getGifId().equals(gifId)) {
+                        // Get the selected gif image
                         gifUrl = gifFromNetwork.getGifUrl();
                         Glide.with(getActivity())
                                 .load(gifUrl)
                                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                                 .apply(RequestOptions.centerCropTransform())
                                 .into(binding.dialogImage);
+
+                        // Set the favorites icon to the correct state
+                        gifIsFavorite = gifFromNetwork.getIsFavorite();
+                        favorites.setChecked(gifIsFavorite);
                     }
                 }
-            }
-        });
-    }
 
-    // Save to Favorites; TODO: move text to string xml
-    private void setupSaveFavoriteButton() {
-        final ToggleButton favorites = binding.buttonSave;
-        favorites.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (favorites.isChecked()) {
-                    viewModel.addFavorite(gifId);
-                    Toast.makeText(getActivity(), "Saved to Favorites", Toast.LENGTH_SHORT).show();
-                } else {
-                    viewModel.removeFavorite(gifId);
-                    Toast.makeText(getActivity(), "Removed from Favorites", Toast.LENGTH_SHORT).show();
-                }
+                // Save to favorites
+                favorites.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (favorites.isChecked()) {
+                            viewModel.addFavorite(gifId);
+                            Toast.makeText(getActivity(), resources.getString(R.string.toast_favorites_saved), Toast.LENGTH_SHORT).show();
+                        } else {
+                            viewModel.removeFavorite(gifId);
+                            Toast.makeText(getActivity(), resources.getString(R.string.toast_favorites_removed), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
 
     // Share Button
     private void setupShareButton(){
+        final Resources resources = getResources();
         binding.buttonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Upload Started", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), resources.getString(R.string.toast_share_gif), Toast.LENGTH_SHORT).show();
                 new GetGifFileOnDiskTask().execute(gifUrl);
             }
         });

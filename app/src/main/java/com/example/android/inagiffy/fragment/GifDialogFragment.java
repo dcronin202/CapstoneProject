@@ -43,7 +43,6 @@ public class GifDialogFragment extends DialogFragment {
     private String gifId;
     private File gifFile;
     private String gifUrl;
-    private ProgressDialog progress;
 
     // Class Constructor
     public GifDialogFragment (String gifId) {
@@ -153,13 +152,12 @@ public class GifDialogFragment extends DialogFragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progress.dismiss();
             if (gifFile != null) {
                 Uri shareUri = FileProvider.getUriForFile(getActivity(), "com.example.android.inagiffy.fileprovider", gifFile);
                     if (shareUri != null) {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("image/gif");
                     shareIntent.putExtra(Intent.EXTRA_STREAM, shareUri);
+                    shareIntent.setType("image/gif");
                     shareIntent.setDataAndType(shareUri, getActivity().getContentResolver().getType(shareUri));
                     // TODO: Add text/WhatsApp as a share destination
                     shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);

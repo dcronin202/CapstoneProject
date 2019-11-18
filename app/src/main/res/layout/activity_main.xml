@@ -15,7 +15,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -37,7 +38,10 @@
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/search_view_main"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_background"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp" />
 
             </androidx.appcompat.widget.Toolbar>
 

@@ -1,6 +1,7 @@
 package com.example.android.inagiffy;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -178,15 +179,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 return true;
 
             case R.id.display_mode:
-                Toast.makeText(this, "Display Mode", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.display_theme:
                 if (item.isChecked()) {
                     item.setChecked(false);
+                    setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     Toast.makeText(this, "Light Theme", Toast.LENGTH_SHORT).show();
                 } else {
                     item.setChecked(true);
+                    setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     Toast.makeText(this, "Dark Theme", Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -194,6 +196,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // Set Display Mode
+    private void setNightMode(@AppCompatDelegate.NightMode int nightMode) {
+        AppCompatDelegate.setDefaultNightMode(nightMode);
     }
 
     @Override

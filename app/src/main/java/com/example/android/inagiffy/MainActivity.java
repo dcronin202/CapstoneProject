@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Resources resources = getResources();
 
         // DataBinding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         binding.recyclerViewMain.setItemAnimator(null);
 
         // Setup SearchView
+        binding.searchViewMain.setQueryHint(resources.getString(R.string.search_hint));
         binding.searchViewMain.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -83,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         binding.swipeRefreshLayout.setColorScheme(android.R.color.holo_purple);
 
         // Error Message
-        Resources resources = getResources();
         binding.errorMessage.setText(resources.getString(R.string.error_message));
 
         // Toolbar

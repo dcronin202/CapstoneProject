@@ -9,6 +9,7 @@
     <string name="menu_favorites">Favorites</string>
     <string name="menu_display_mode">Display Mode</string>
     <string name="menu_dark_theme">Dark Theme</string>
+    <string name="menu_light_theme">Light Theme</string>
 
     <!-- GIPHY -->
     <string name="url_base_giphy">https://api.giphy.com/v1/gifs/</string>
@@ -24,5 +25,10 @@
     <!-- Widget -->
     <string name="appwidget_text">Favorites</string>
     <string name="add_widget">Add widget</string>
+
+    <!-- Toast Messages -->
+    <string name="toast_favorites_saved">Saved to Favorites</string>
+    <string name="toast_favorites_removed">Removed from Favorites</string>
+    <string name="toast_share_gif">Upload Started</string>
 
 </resources>

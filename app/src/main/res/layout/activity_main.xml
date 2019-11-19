@@ -10,7 +10,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/main_activity_layout">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -27,7 +28,10 @@
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:paddingTop="6dp"
+                android:layout_marginBottom="4dp"
+                android:paddingBottom="4dp">
 
                 <LinearLayout
                     android:focusable="true"
@@ -40,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/search_background"
-                    android:layout_marginTop="16dp"
+                    app:searchIcon="@drawable/ic_search_icon"
+                    android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp" />
 
             </androidx.appcompat.widget.Toolbar>
@@ -56,10 +61,10 @@
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingTop="56dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/adView_test" >
+                app:layout_constraintBottom_toBottomOf="parent" >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_main"
@@ -67,6 +72,8 @@
                     android:layout_height="wrap_content" />
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Banner Ad (using test ad unit ID) -->
             <com.google.android.gms.ads.AdView
@@ -76,14 +83,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center|bottom"
                 ads:adSize="BANNER"
-                ads:adUnitId="@string/banner_ad_unit_id"
-                ads:layout_constraintBottom_toBottomOf="parent"
-                ads:layout_constraintStart_toStartOf="parent"
-                ads:layout_constraintEnd_toEndOf="parent"/>
+                ads:adUnitId="@string/banner_ad_unit_id" />
 
             <!-- Error Message -->
             <TextView
@@ -94,7 +97,6 @@
                 android:text="@string/error_message"
                 android:visibility="gone"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -30,8 +30,7 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:paddingTop="6dp"
-                android:layout_marginBottom="4dp"
-                android:paddingBottom="4dp">
+                android:paddingBottom="6dp">
 
                 <LinearLayout
                     android:focusable="true"
@@ -61,7 +60,7 @@
                 android:id="@+id/swipe_refresh_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" >

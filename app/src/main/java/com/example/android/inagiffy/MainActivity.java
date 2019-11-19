@@ -3,6 +3,7 @@ package com.example.android.inagiffy;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,6 +13,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         // Toolbar
         setSupportActionBar(binding.toolbar);
+        Drawable overflowIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_light_mode);
+        binding.toolbar.setOverflowIcon(overflowIcon);
 
         // Screen orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -182,14 +187,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 return true;
 
             case R.id.display_theme:
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    Toast.makeText(this, resources.getString(R.string.menu_light_theme), Toast.LENGTH_SHORT).show();
-                } else {
+                if (!item.isChecked()) {
                     item.setChecked(true);
-                    setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    //setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setDarkMode();
                     Toast.makeText(this, resources.getString(R.string.menu_dark_theme), Toast.LENGTH_SHORT).show();
+                } else {
+                    item.setChecked(false);
+                    setLightMode();
+                    //setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    Toast.makeText(this, resources.getString(R.string.menu_light_theme), Toast.LENGTH_SHORT).show();
                 }
                 return true;
 
@@ -199,8 +206,18 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     // Set Display Mode
-    private void setNightMode(@AppCompatDelegate.NightMode int nightMode) {
-        AppCompatDelegate.setDefaultNightMode(nightMode);
+    private void setDarkMode() {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBackgroundDarkMode)));
+        Drawable overflowIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_dark_mode);
+        binding.toolbar.setOverflowIcon(overflowIcon);
+        binding.mainActivityLayout.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarkMode));
+    }
+
+    private void setLightMode() {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBackground)));
+        Drawable overflowIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_light_mode);
+        binding.toolbar.setOverflowIcon(overflowIcon);
+        binding.mainActivityLayout.setBackgroundColor(getResources().getColor(R.color.colorBackground));
     }
 
     @Override

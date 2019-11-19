@@ -189,13 +189,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case R.id.display_theme:
                 if (!item.isChecked()) {
                     item.setChecked(true);
-                    //setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     setDarkMode();
                     Toast.makeText(this, resources.getString(R.string.menu_dark_theme), Toast.LENGTH_SHORT).show();
                 } else {
                     item.setChecked(false);
                     setLightMode();
-                    //setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     Toast.makeText(this, resources.getString(R.string.menu_light_theme), Toast.LENGTH_SHORT).show();
                 }
                 return true;

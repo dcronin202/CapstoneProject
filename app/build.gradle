@@ -23,23 +23,6 @@ android {
     dataBinding{
         enabled = true;
     }
-
-    // Flavors for displaying/hiding Ads
-    flavorDimensions 'version'
-    productFlavors {
-        displayAds {
-            dimension = 'version'
-            applicationId = 'com.example.android.inagiffy.ads'
-            versionCode = 1
-            versionName = '1.0'
-        }
-        removeAds {
-            dimension = 'version'
-            applicationId = 'com.example.android.inagiffy.adfree'
-            versionCode = 1
-            versionName = '1.0'
-        }
-    }
 }
 
 dependencies {

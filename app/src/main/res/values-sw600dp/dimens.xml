@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- CardView Columns -->
+    <integer name="list_column_count">3</integer>
+
+</resources>

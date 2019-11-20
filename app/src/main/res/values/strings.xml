@@ -19,7 +19,11 @@
     <string name="api_key_giphy"></string>
 
     <!-- Content Descriptions -->
-    <string name="contentDescription_selected_gif">The GIF image you selected.</string>
+    <string name="contentDescription_list_item_gif">Card view of GIF image.</string>
+    <string name="contentDescription_selected_gif">Dialog box of the selected GIF image.</string>
+    <string name="contentDescription_save_to_favorites">Button to save GIF image to favorites.</string>
+    <string name="contentDescription_share_gif">Button to share GIF image.</string>
+    <string name="contentDescription_widget">Icon for the Widget</string>
 
     <!-- Ad Unit ID -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>

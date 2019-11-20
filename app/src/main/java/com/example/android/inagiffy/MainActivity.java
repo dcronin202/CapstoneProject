@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         binding.recyclerViewMain.setAdapter(recyclerViewAdapter);
 
         // Set image cards to display in a staggered grid layout
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        int columnCount = resources.getInteger(R.integer.list_column_count);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
         binding.recyclerViewMain.setLayoutManager(layoutManager);
         binding.recyclerViewMain.setItemAnimator(null);
 

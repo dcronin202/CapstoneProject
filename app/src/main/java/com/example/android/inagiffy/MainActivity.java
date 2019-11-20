@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // Swipe Refresh
     @Override
     public void onRefresh() {
-        viewModel.getTrendingGifList(this);
+        viewModel.loadGifImages(this);
     }
 
     // Log Event for Firebase Analytics

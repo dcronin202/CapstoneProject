@@ -14,9 +14,9 @@
         android:id="@+id/gif_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/contentDescription_selected_gif" />
+        android:contentDescription="@string/contentDescription_list_item_gif"
+        android:scaleType="fitXY" />
 
     <ProgressBar
         android:id="@+id/gif_progress_bar"

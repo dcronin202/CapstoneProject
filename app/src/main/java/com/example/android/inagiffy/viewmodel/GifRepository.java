@@ -47,7 +47,6 @@ public class GifRepository {
         return gifImages;
     }
 
-    // TODO: Fix this from sending favorites to Favorite screen
     public void getFavoritesList(LifecycleOwner owner) {
         gifDao.loadAllGifImages().observe(owner, new Observer<List<Gif>>() {
             @Override
@@ -123,7 +122,6 @@ public class GifRepository {
         if (response.isSuccessful()) {
             final GiphyResponse giphyResponse = response.body();
             final List<Gif> gifList = giphyResponse.getGifImageResults();
-            // TODO: Not working
             gifDao.loadAllGifImages().observe(owner, new Observer<List<Gif>>() {
                 @Override
                 public void onChanged(List<Gif> databaseGifs) {

@@ -1,16 +1,23 @@
 package com.example.android.inagiffy.data;
 
+import android.content.res.Resources;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.example.android.inagiffy.R;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "favorites")
 public class Gif {
+
+    private static final String LOG = Gif.class.getSimpleName();
+
 
     @NonNull
     @PrimaryKey //(autoGenerate = true)
@@ -36,7 +43,6 @@ public class Gif {
         return gifId;
     }
 
-    // TODO: Add as strings to values directory
     public String getGifUrl() {
         String url1 = "https://media.giphy.com/media/";
         String url2 = "/giphy.gif";

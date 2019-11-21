@@ -53,7 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // Glide Setup
         Glide.with(mContext)
                 .load(gifImages.getGifUrl())
-                // TODO: Change the icon for the placeholder
                 .placeholder(R.drawable.ic_gif_progress_placeholder)
                 // Remove ProgressBar once gif has loaded (or if gif fails to load)
                 .listener(new RequestListener<Drawable>() {

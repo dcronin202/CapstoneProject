@@ -163,7 +163,6 @@ public class GifDialogFragment extends DialogFragment {
                     shareIntent.putExtra(Intent.EXTRA_STREAM, shareUri);
                     shareIntent.setType("image/gif");
                     shareIntent.setDataAndType(shareUri, getActivity().getContentResolver().getType(shareUri));
-                    // TODO: Add text/WhatsApp as a share destination
                     shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(shareIntent);
                 }

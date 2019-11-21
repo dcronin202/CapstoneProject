@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
         });
 
-        // Obtain the FirebaseAnalytics instance
+        // Obtain the Firebase Analytics instance
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         /* For widget
@@ -174,13 +174,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             case R.id.trending:
                 Toast.makeText(this, resources.getString(R.string.menu_trending), Toast.LENGTH_SHORT).show();
                 sortByTrending();
-                logSelectedEvent(resources.getString(R.string.menu_trending));
                 return true;
 
             case R.id.favorites:
                 Toast.makeText(this, resources.getString(R.string.menu_favorites), Toast.LENGTH_SHORT).show();
                 sortByFavorites();
-                logSelectedEvent(resources.getString(R.string.menu_favorites));
                 return true;
 
             case R.id.display_mode:
@@ -218,28 +216,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         binding.mainActivityLayout.setBackgroundColor(getResources().getColor(R.color.colorBackground));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.loadGifImages(this);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
     // Swipe Refresh
     @Override
     public void onRefresh() {
         viewModel.loadGifImages(this);
     }
 
-    // Log Event for Firebase Analytics
-    private void logSelectedEvent(String menuTitle) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, menuTitle);
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.loadGifImages(this);
+        mFirebaseAnalytics.setCurrentScreen(this, getResources().getString(R.string.screen_name), null);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }

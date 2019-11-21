@@ -15,7 +15,8 @@
 
     <!-- GIPHY -->
     <string name="url_base_giphy">https://api.giphy.com/v1/gifs/</string>
-    <!-- TODO: Add/Remove API key -->
+    
+    <!-- API Key; TODO: Remove before committing -->
     <string name="api_key_giphy"></string>
 
     <!-- Content Descriptions -->

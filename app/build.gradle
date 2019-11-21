@@ -6,7 +6,7 @@ android {
         release {
             keyAlias '******'
             keyPassword '******'
-            storeFile file('release.keystore')
+            storeFile file('../capstone-project-keystore.jks')
             storePassword '******'
         }
     }
@@ -23,9 +23,6 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false

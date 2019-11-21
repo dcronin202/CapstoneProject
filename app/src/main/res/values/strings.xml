@@ -6,6 +6,8 @@
 
     <string name="search_hint">Search</string>
 
+    <string name="screen_name">MainActivity</string>
+
     <!-- Menu Options -->
     <string name="menu_trending">Trending</string>
     <string name="menu_favorites">Favorites</string>
@@ -15,7 +17,7 @@
 
     <!-- GIPHY -->
     <string name="url_base_giphy">https://api.giphy.com/v1/gifs/</string>
-    
+
     <!-- API Key; TODO: Remove before committing -->
     <string name="api_key_giphy"></string>
 

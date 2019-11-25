@@ -12,8 +12,10 @@ If you don't have an account with GIPHY, you will need to create one in order to
 ## Uses
 
 * [Retrofit](https://square.github.io/retrofit/)
-* [SQLite](https://www.sqlite.org/index.html)
 * [Glide](https://bumptech.github.io/glide/)
+* [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room)
 * [Data Binding Library](https://developer.android.com/topic/libraries/data-binding)
+* [Google AdMob](https://developers.google.com/admob/android/quick-start)
+* [Google Analytics](https://firebase.google.com/docs/analytics/get-started?platform=android)
 
 ## Screenshots

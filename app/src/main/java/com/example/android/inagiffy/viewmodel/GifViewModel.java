@@ -20,7 +20,7 @@ public class GifViewModel extends AndroidViewModel {
     private GifRepository gifRepository;
 
     private static final String viewState = "view_state";
-    public static final String trendingView = "trending";
+    private static final String trendingView = "trending";
     public static final String favoritesView = "favorites";
     private String currentView = "";
     private SharedPreferences mPreferences;
@@ -39,9 +39,8 @@ public class GifViewModel extends AndroidViewModel {
 
     // Favorites
     public void getFavorites(LifecycleOwner owner) {
-        gifRepository.getFavoritesList(owner);
         saveViewState(favoritesView);
-
+        gifRepository.getFavoritesList(owner);
     }
 
     public void addFavorite(final String gifId) {
@@ -77,7 +76,7 @@ public class GifViewModel extends AndroidViewModel {
     }
 
     // View State
-    private void saveViewState(String newState) {
+    public void saveViewState(String newState) {
         currentView = newState;
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(viewState, currentView);
@@ -101,8 +100,9 @@ public class GifViewModel extends AndroidViewModel {
 
     // Trending
     public void getTrendingGifList(LifecycleOwner owner) {
-        gifRepository.callTrendingGifImages(owner);
         saveViewState(trendingView);
+        gifRepository.callTrendingGifImages(owner);
+
     }
 
     // Search

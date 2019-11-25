@@ -19,3 +19,9 @@ If you don't have an account with GIPHY, you will need to create one in order to
 * [Google Analytics](https://firebase.google.com/docs/analytics/get-started?platform=android)
 
 ## Screenshots
+
+![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/main-activity.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/app-logo-and-widget.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/dialog-fragment.png) 
+
+### Features
+
+![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/search-feature.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/menu-screen.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/dark-theme.png)

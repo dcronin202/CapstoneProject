@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
@@ -36,7 +38,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    private Menu menu;
+    private static final String viewState = "view_state";
+    private static final String lightMode = "light";
+    private static final String darkMode = "dark";
+
     public static final String FAVORITES = "favorites";
+
     private GifViewModel viewModel;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ActivityMainBinding binding;
@@ -52,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         setupDataObservers();
-        viewModel.getTrendingGifList(this);
 
         // RecyclerView
         recyclerViewAdapter = new RecyclerViewAdapter(this, new ArrayList<Gif>());
@@ -108,24 +115,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         // Obtain the Firebase Analytics instance
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        /* For widget
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if (extras.get(FAVORITES) != null) {
-                if (extras.get(FAVORITES) instanceof Boolean) {
-                    Boolean isFavorites = (Boolean) extras.get(FAVORITES);
-                    if (isFavorites) {
-                        mainFragment.sortByFavorites();
-                    }
-                }
+        // Widget
+        Intent intent = getIntent();
+        if (intent.hasExtra(FAVORITES)) {
+            boolean shouldShowFavorites = intent.getBooleanExtra(FAVORITES, false);
+            if (shouldShowFavorites) {
+                viewModel.saveViewState(GifViewModel.favoritesView);
             }
-        }*/
+        }
+        viewModel.loadGifImages(this);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        super.onNewIntent(intent);
     }
 
     // ViewModel
     private void setupDataObservers() {
         viewModel = ViewModelProviders.of(this).get(GifViewModel.class);
-        viewModel.setupSharedPref(this.getSharedPreferences("gif-app", Context.MODE_PRIVATE));
+        viewModel.setupSharedPref(getSharedPreferences("gif-app", Context.MODE_PRIVATE));
         viewModel.getGifImages().observe(this, new Observer<List<Gif>>() {
             @Override
             public void onChanged(List<Gif> gifs) {
@@ -151,7 +161,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     // Menu Setup
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
+        displayViewState();
         return true;
     }
 
@@ -186,12 +198,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             case R.id.display_theme:
                 if (!item.isChecked()) {
-                    item.setChecked(true);
-                    setDarkMode();
+                    setDarkMode(R.id.display_theme);
+                    saveViewState(darkMode);
                     Toast.makeText(this, resources.getString(R.string.menu_dark_theme), Toast.LENGTH_SHORT).show();
                 } else {
-                    item.setChecked(false);
-                    setLightMode();
+                    setLightMode(R.id.display_theme);
+                    saveViewState(lightMode);
                     Toast.makeText(this, resources.getString(R.string.menu_light_theme), Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -202,14 +214,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     // Set Display Mode
-    private void setDarkMode() {
+    private void setDarkMode(int id) {
+        // Set Dark Theme checkbox to true;
+        MenuItem item = menu.findItem(id);
+        item.setChecked(true);
+
+        // Change background
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBackgroundDarkMode)));
         Drawable overflowIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_dark_mode);
         binding.toolbar.setOverflowIcon(overflowIcon);
         binding.mainActivityLayout.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDarkMode));
     }
 
-    private void setLightMode() {
+    private void setLightMode(int id) {
+        // Set Dark Theme checkbox to false;
+        MenuItem item = menu.findItem(id);
+        item.setChecked(false);
+
+        // Change background
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorBackground)));
         Drawable overflowIcon = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_menu_light_mode);
         binding.toolbar.setOverflowIcon(overflowIcon);
@@ -222,11 +244,26 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         viewModel.loadGifImages(this);
     }
 
+    // View State
+    private void saveViewState(String currentView) {
+        SharedPreferences.Editor editor = getSharedPreferences("display-mode", MODE_PRIVATE).edit();
+        editor.putString(viewState, currentView);
+        editor.apply();
+    }
+
+    private void displayViewState() {
+        SharedPreferences sharedPref = getSharedPreferences("display-mode", MODE_PRIVATE);
+        String showViewState = sharedPref.getString(viewState, "default");
+        if (showViewState.equals(lightMode)) {
+            setLightMode(R.id.display_theme);
+        } else {
+            setDarkMode(R.id.display_theme);
+        }
+    }
 
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.loadGifImages(this);
         mFirebaseAnalytics.setCurrentScreen(this, getResources().getString(R.string.screen_name), null);
     }
 

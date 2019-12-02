@@ -20,8 +20,13 @@ If you don't have an account with GIPHY, you will need to create one in order to
 
 ## Screenshots
 
+### Main Activity / App and Widget Icon
+
 ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/main-activity.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/dialog-fragment.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/app-logo-and-widget.png)  
 
 ### Features
 
 ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/search-feature.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/menu-screen.png)  ![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/dark-theme.png)
+
+### Tablet
+![](https://github.com/dcronin202/CapstoneProject/blob/master/screenshots/tablet-screen.png)

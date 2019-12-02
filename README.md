@@ -2,7 +2,7 @@
 
 This app displays a list of popular GIF images pulled from GIPHY. The user can also search GIPHY's library of GIFs for specific images, save GIF images to their Favorites, or share GIFs with others.
 
-### Features
+#### Features
 * See what GIFs are currently popular/trending
 * Search and send from the world's largest database of GIFs (GIPHY API)
 * Save favorite GIFs to a local database for future use

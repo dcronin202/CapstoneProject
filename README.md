@@ -9,7 +9,7 @@ More info on the GIPHY Developer Portal is available at: https://developers.giph
 
 * Clone this repository using ```git@github.com:dcronin202/CapstoneProject.git```
 * If you don't have an account with GIPHY, you will need to create one in order to request an API Key (https://developers.giphy.com/docs/sdk). Once you have an API Key, you can add it to the **api_key_giphy** string in the **strings.xml** file.
-* Click run in Android Studio or execute ```installRelease``` gradle task
+* Click **Run** in Android Studio or execute the ```installRelease``` gradle task
 
 ## Uses
 

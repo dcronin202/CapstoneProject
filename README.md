@@ -1,6 +1,12 @@
 # Udacity Capstone Project - In a Giffy App
 
-This app displays a list of popular GIF images pulled from GIPHY. The user can also search GIPHY's library of GIFs for specific images, save GIF images to their Favorites, or share GIFs with others. 
+This app displays a list of popular GIF images pulled from GIPHY. The user can also search GIPHY's library of GIFs for specific images, save GIF images to their Favorites, or share GIFs with others.
+
+### Features
+* See what GIFs are currently popular/trending
+* Search and send from the world's largest database of GIFs (GIPHY API)
+* Save favorite GIFs to a local database for future use
+* Set user display preferences for Light or Dark Theme
 
 More info on the GIPHY Developer Portal is available at: https://developers.giphy.com/
 

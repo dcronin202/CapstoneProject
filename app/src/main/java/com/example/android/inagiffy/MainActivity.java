@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 }
 
                 if (gifs.size() > 0) {
+                    setLightMode(R.id.display_theme);
                     recyclerViewAdapter.updateGifList(gifs);
                     binding.recyclerViewMain.setVisibility(View.VISIBLE);
                     binding.adViewTest.setVisibility(View.VISIBLE);

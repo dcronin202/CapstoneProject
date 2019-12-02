@@ -1,4 +1,4 @@
-# Capstone Project - In a Giffy App
+# Udacity Capstone Project - In a Giffy App
 
 This app displays a list of popular GIF images pulled from GIPHY. The user can also search GIPHY's library of GIFs for specific images, save GIF images to their Favorites, or share GIFs with others. 
 
@@ -7,7 +7,9 @@ More info on the GIPHY Developer Portal is available at: https://developers.giph
 
 ## Getting Started
 
-If you don't have an account with GIPHY, you will need to create one in order to request an API Key (https://developers.giphy.com/docs/sdk). Once you have an API Key, you can add it to the **api_key_giphy** string in the **strings.xml** file.
+* Clone this repository using ```git@github.com:dcronin202/CapstoneProject.git```
+* If you don't have an account with GIPHY, you will need to create one in order to request an API Key (https://developers.giphy.com/docs/sdk). Once you have an API Key, you can add it to the **api_key_giphy** string in the **strings.xml** file.
+* Click run in Android Studio or execute ```installRelease``` gradle task
 
 ## Uses
 

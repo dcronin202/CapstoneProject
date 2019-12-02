@@ -7,6 +7,7 @@ This app displays a list of popular GIF images pulled from GIPHY. The user can a
 * Search and send from the world's largest database of GIFs (GIPHY API)
 * Save favorite GIFs to a local database for future use
 * Set user display preferences for Light or Dark Theme
+* Widget to quickly access user Favorites
 
 More info on the GIPHY Developer Portal is available at: https://developers.giphy.com/
 
